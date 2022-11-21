@@ -10,7 +10,7 @@ import model.dto.Like;
 public class LectureDAO {
 	private JDBCUtil jdbcUtil = null;
 	
-	// JDBC 객체 생성
+	// 수정수정
 	public LectureDAO() {
 		jdbcUtil = new JDBCUtil();
 	}
