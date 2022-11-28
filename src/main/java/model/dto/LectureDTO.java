@@ -8,10 +8,11 @@ public class LectureDTO {
 	private String loc;
 	private String week;
 	private String lecTime;
+	private int cNo; 		//분반
 	
 	// 검색에 필요한 정보
 	private int occupancy;
-	private int credit;
+	private int credit; 	//학점
 	private String onOff;
 	private String lecType;
 	private String interest;
@@ -30,6 +31,18 @@ public class LectureDTO {
 		this.week = week;
 		this.lecTime = lecTime;
 	}
+	
+	// 기본정보만 초기화하는 생성자
+		public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime, int cNo) {
+			super();
+			this.lecID = lecID;
+			this.title = title;
+			this.professor = professor;
+			this.loc = loc;
+			this.week = week;
+			this.lecTime = lecTime;
+			this.cNo = cNo;
+		}
 
 	// 옵셔널 정보까지 초기화하는 생성자
 	public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime,
@@ -38,6 +51,21 @@ public class LectureDTO {
 		this.lecID = lecID;
 		this.title = title;
 		this.professor = professor;
+		this.loc = loc;
+		this.week = week;
+		this.lecTime = lecTime;
+		this.occupancy = occupancy;
+		this.credit = credit;
+		this.onOff = onOff;
+		this.lecType = lecType;
+		this.interest = interest;
+		this.examType = examType;
+	}
+	
+	// keyword으로 만든 LectureDTO 생성자
+	public LectureDTO(String loc, String week, String lecTime,
+			int occupancy, int credit, String onOff, String lecType, String interest, String examType) {
+		super();
 		this.loc = loc;
 		this.week = week;
 		this.lecTime = lecTime;
@@ -144,6 +172,14 @@ public class LectureDTO {
 		this.examType = examType;
 	}
 
+	public int getcNo() {
+		return cNo;
+	}
+
+	public void setcNo(int cNo) {
+		this.cNo = cNo;
+	}
+
 	@Override
 	public String toString() {
 		return "LectureDTO [lecID=" + lecID + ", title=" + title + ", professor=" + professor + ", loc=" + loc
@@ -151,5 +187,6 @@ public class LectureDTO {
 				+ ", onOff=" + onOff + ", lecType=" + lecType + ", interest=" + interest + ", examType=" + examType
 				+ "]";
 	}
+	
 	
 }
