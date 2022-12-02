@@ -8,11 +8,11 @@ public class LectureDTO {
 	private String loc;
 	private String week;
 	private String lecTime;
-	private int cNo; 		//분반
+	private int cNo;
 	
 	// 검색에 필요한 정보
 	private int occupancy;
-	private int credit; 	//학점
+	private int credit;
 	private String onOff;
 	private String lecType;
 	private String interest;
@@ -22,7 +22,7 @@ public class LectureDTO {
 	public LectureDTO() {}
 
 	// 기본정보만 초기화하는 생성자
-	public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime) {
+	public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime, int cNo) {
 		super();
 		this.lecID = lecID;
 		this.title = title;
@@ -30,19 +30,8 @@ public class LectureDTO {
 		this.loc = loc;
 		this.week = week;
 		this.lecTime = lecTime;
+		this.cNo = cNo;
 	}
-	
-	// 기본정보만 초기화하는 생성자
-		public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime, int cNo) {
-			super();
-			this.lecID = lecID;
-			this.title = title;
-			this.professor = professor;
-			this.loc = loc;
-			this.week = week;
-			this.lecTime = lecTime;
-			this.cNo = cNo;
-		}
 
 	// 옵셔널 정보까지 초기화하는 생성자
 	public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime,
@@ -62,13 +51,18 @@ public class LectureDTO {
 		this.examType = examType;
 	}
 	
-	// keyword으로 만든 LectureDTO 생성자
-	public LectureDTO(String loc, String week, String lecTime,
+	
+
+	public LectureDTO(String lecID, String title, String professor, String loc, String week, String lecTime, int cNo,
 			int occupancy, int credit, String onOff, String lecType, String interest, String examType) {
 		super();
+		this.lecID = lecID;
+		this.title = title;
+		this.professor = professor;
 		this.loc = loc;
 		this.week = week;
 		this.lecTime = lecTime;
+		this.cNo = cNo;
 		this.occupancy = occupancy;
 		this.credit = credit;
 		this.onOff = onOff;
@@ -171,6 +165,8 @@ public class LectureDTO {
 	public void setExamType(String examType) {
 		this.examType = examType;
 	}
+	
+	
 
 	public int getcNo() {
 		return cNo;
@@ -183,10 +179,9 @@ public class LectureDTO {
 	@Override
 	public String toString() {
 		return "LectureDTO [lecID=" + lecID + ", title=" + title + ", professor=" + professor + ", loc=" + loc
-				+ ", week=" + week + ", lecTime=" + lecTime + ", occupancy=" + occupancy + ", credit=" + credit
-				+ ", onOff=" + onOff + ", lecType=" + lecType + ", interest=" + interest + ", examType=" + examType
-				+ "]";
+				+ ", week=" + week + ", lecTime=" + lecTime + ", cNo=" + cNo + ", occupancy=" + occupancy + ", credit="
+				+ credit + ", onOff=" + onOff + ", lecType=" + lecType + ", interest=" + interest + ", examType="
+				+ examType + "]";
 	}
-	
 	
 }

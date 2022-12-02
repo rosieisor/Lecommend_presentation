@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.dao.mapper.LectureMapper">
+	<!-- SQL 정의 -->
+
+	<cache />
+
+	<insert id="insertLecture" parameterType="LectureDTO">
+		INSERT INTO Lecture (lecId, title, professor, loc, week, lecTime, cNo)
+		VALUES (#{lecID}, #{title}, #{professor}, #{loc}, #{week}, #{lecTime}, #{cNo})
+	</insert>
+	
+	<insert id="insertLectureDetail" parameterType="LectureDTO">
+		INSERT INTO optionalInfo (lecId, occupancy, credit, onOff, loc, week, lecTime, lecType, interest, examType)
+		VALUES (#{lecID}, #{occupancy}, #{credit}, #{onOff}, #{loc}, #{week}, #{lecTime}, #{lecType}, #{interest}, #{examType})
+	</insert>
+
+	<update id="updateLecture" parameterType="LectureDTO">
+		UPDATE Lecture
+		SET lecId = #{lecId}, title = #{title}, professor = #{professor}, loc = #{loc}
+		week = #{week}, lecTime = #{lecTime}, cNo = #{cNo}
+		WHERE
+		lecId = #{lecID}
+	</update>
+	
+	<update id="updateLectureDetail" parameterType="LectureDTO">
+		UPDATE optionalInfo
+		SET lecId = #{lecId}, occupancy = #{occupancy}, credit = #{credit}, onOff = #{onOff}, 
+		loc = #{loc}, week = #{week}, lecTime = #{lecTime}, interest = #{interest}, examType = #{examType}
+		WHERE
+		lecId = #{lecID}
+	</update>
+
+	<delete id="deleteLecture" parameterType="LectureDTO">
+		DELETE FROM Lecture
+		WHERE lecId = #{lecID}
+	</delete>
+	
+	<delete id="deleteLectureDetail" parameterType="LectureDTO">
+		DELETE FROM optionalInfo
+		WHERE lecId = #{lecID}
+	</delete>
+
+	<select id="selectAllLectures" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno, o.OCCUPANCY, o.credit, o.onoff, o.lectype, o.interest, o.examtype
+		from lecture l join optionalinfo o on l.lecid = o.lecid
+	</select>
+
+	<select id="selectLectureByLecId" parameterType="String" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno, o.OCCUPANCY, o.credit, o.onoff, o.lectype, o.interest, o.examtype
+		from lecture l join optionalinfo o on l.lecid = o.lecid
+		where l.lecid = #{lecID};
+	</select>
+
+	<select id="selectLecturesTop5" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno
+		from lecture l join (select lecid, count(lecid) 
+		from dib group by lecid) sub on l.lecid = sub.lecid
+		where rownum &lt; 6;
+	</select>
+	
+	<select id="selectLecturesTop5InSameDept" parameterType="String" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno
+		from lecture l join (select d.lecid, count(s.major)
+		from dib d join student s on d.stuid = s.stuid
+		where s.major = #{major};
+		group by d.lecid) sub on l.lecid = sub.lecid
+		where rownum &lt; 6;
+	</select>
+	
+	<select id="selectLecturesOtherStudentDib" resultType="String">
+		select dib2.lecid
+		from (select * from dib where stuid ! = #{param1} and lecid = #{param2}) dib1, dib dib2
+		where dib1.stuid = dib2.stuid and dib1.lecid != dib2.lecid
+		group by dib2.lecid;
+	</select>
+	
+	<select id="selectCountOfStuentDibs" parameterType="String">
+		select count(stuid) as count
+		from dib 
+		where stuid = #{stuID}
+	</select>
+	
+	<select id="selectLectureByKeyword" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno
+		from lecture l join optionalinfo o on l.lecid = o.lecid
+		where loc = #{param1} OR 
+		week = #{param2} OR
+		lecTime = #{param3} OR 
+		occupancy = #{param4} OR 
+		credit = #{param5} OR 
+		onOff = #{param6} OR 
+		lecType = #{param7} OR 
+		interest = #{param8} OR 
+		examType = #{param9}
+	</select>
+
+	<select id="selectLectureByKeywordAndStatus" resultType="LectureDTO">
+		select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno
+		from lecture l, dib d
+		where (d.stuid = #{param1} and l.lecid != d.lecid) AND loc = #{param2} OR 
+		week = #{param3} OR
+		lecTime = #{param4} OR 
+		occupancy = #{param5} OR 
+		credit = #{param6} OR 
+		onOff = #{param7} OR 
+		lecType = #{param8} OR 
+		interest = #{param9} OR 
+		examType = #{param10}
+	</select>
+	
+
+</mapper>
