@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.hotList{
+	margin-top: 35px;
+	margin-left: 80px;
+	padding-top: 20px;
+	width: 340px;
+	position: absolute;
+}
+
+.list {
+	font-weight: bold;
+	font-size: 12px;
+	color: #6f263d;
+}
+
+
+.card-border {
+	margin: 20px;
+	color: #6f263d;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+	border: solid 1px #f1f1f1;
+	border-radius: 1em;
+	background-color: #fff;
+	margin-right: 10px;
+	padding: 3px;
+}
+
+
+.card-title {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.recommend-card {
+	text-align: center;
+}
+
+.list-cnt {
+	color: #6f263d;
+	font-size: 18px;
+	margin-left: 25px;
+	font-weight: bold;
+}
+

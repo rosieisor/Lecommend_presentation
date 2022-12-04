@@ -17,7 +17,7 @@ public class LectureDAO {
 	/**
 	 * [C] Lecture 테이블에 새로운 lecture 생성
 	 */
-	public int creatLectue(LectureDTO lec) throws SQLException {
+	public int create(LectureDTO lec) throws SQLException {
 		String sql = "INSERT INTO LECTURE "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
@@ -41,7 +41,7 @@ public class LectureDAO {
 	/**
 	 * [C] Lecture 테이블에 새로운 lecture 생성
 	 */
-	public int creatLectueDetail(LectureDTO lec) throws SQLException {
+	public int createDetail(LectureDTO lec) throws SQLException {
 		String sql = "INSERT INTO OPTIONALINFO "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -66,7 +66,7 @@ public class LectureDAO {
 	/**
 	 * [U] 기존의 Lecture 정보를 수정
 	 */
-	public int updateLecture(LectureDTO lec) throws SQLException {
+	public int update(LectureDTO lec) throws SQLException {
 		String sql = "UPDATE LECTURE "
 					+ "SET lecId = ?, title = ?, professor = ?, loc = ?, week = ?, lecTime = ?, cNo = ? "
 					+ "WHERE lecId = ?";
@@ -91,7 +91,7 @@ public class LectureDAO {
 	/**
 	 * [U] 기존의 Lecture 부가 정보를 수정
 	 */
-	public int updateLectureDetail(LectureDTO lec) throws SQLException {
+	public int updateDetail(LectureDTO lec) throws SQLException {
 		String sql = "UPDATE optionalInfo "
 					+ "SET lecId = ?, occupancy = ?, credit = ?, onOff = ?, loc = ?, week = ?, lecTime = ?, "
 					+ "lectype = ?, interest = ?, examType = ? "
@@ -117,7 +117,7 @@ public class LectureDAO {
 	/**
 	 * [D] 주어진 Lecture ID에 해당하는 Lecture 정보를 삭제.
 	 */
-	public int deleteLecture(String lecId) throws SQLException {
+	public int delete(String lecId) throws SQLException {
 		String sql = "DELETE FROM Lecture "
 					+ "WHERE lecId = ?";
 		jdbcUtil.setSqlAndParameters(sql, new Object[] { lecId });
@@ -138,7 +138,7 @@ public class LectureDAO {
 	/**
 	 * [D] 주어진 Lecture ID에 해당하는 Lecture 부가 정보를 삭제.
 	 */
-	public int deleteLectureDetail(String lecId) throws SQLException {
+	public int deleteDetail(String lecId) throws SQLException {
 		String sql = "DELETE FROM optionalInfo "
 					+ "WHERE lecId = ?";
 		jdbcUtil.setSqlAndParameters(sql, new Object[] { lecId });
@@ -192,7 +192,7 @@ public class LectureDAO {
 	/**
 	 * [R] 주어진 Lecture ID에 해당하는 Lecture 정보를 데이터베이스에서 찾아 Lecture 도메인 클래스에 저장하여 반환.
 	 */
-	public List<LectureDTO> findLectureByLecId(String lecId) throws SQLException {
+	public LectureDTO findLecture(String lecId) throws SQLException {
 		String sql = "select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno "
 				+ "from lecture "
 				+ "where lecid = ?";
@@ -200,9 +200,9 @@ public class LectureDAO {
 		jdbcUtil.setSqlAndParameters(sql, new Object[] { lecId });
 		try {				
 			ResultSet rs = jdbcUtil.executeQuery(); 
-			List<LectureDTO> lectureList = new ArrayList<LectureDTO>(); 
+			LectureDTO lecture = new LectureDTO(); 
 			while (rs.next()) {
-				LectureDTO lecture = new LectureDTO(
+				lecture = new LectureDTO(
 						rs.getString("lecid"), 
 						rs.getString("title"),
 						rs.getString("professor"), 
@@ -210,9 +210,8 @@ public class LectureDAO {
 						rs.getString("week"),
 						rs.getString("lectime"),
 						rs.getInt("cno"));
-				lectureList.add(lecture); 
 			}
-			return lectureList;
+			return lecture;
 		} catch (Exception ex) {
 			jdbcUtil.rollback();
 			ex.printStackTrace();
@@ -239,13 +238,13 @@ public class LectureDAO {
 			List<LectureDTO> lectureList = new ArrayList<LectureDTO>(); 
 			while (rs.next()) {
 				LectureDTO lecture = new LectureDTO(
-						rs.getString("l.lecid"), 
-						rs.getString("l.title"),
-						rs.getString("l.professor"), 
-						rs.getString("l.loc"), 
-						rs.getString("l.week"),
-						rs.getString("l.lectime"),
-						rs.getInt("l.cno"));
+						rs.getString("lecid"), 
+						rs.getString("title"),
+						rs.getString("professor"), 
+						rs.getString("loc"), 
+						rs.getString("week"),
+						rs.getString("lectime"),
+						rs.getInt("cno"));
 				lectureList.add(lecture); 
 			}
 			return lectureList;
@@ -277,13 +276,13 @@ public class LectureDAO {
 			List<LectureDTO> lectureList = new ArrayList<LectureDTO>(); 
 			while (rs.next()) {
 				LectureDTO lecture = new LectureDTO(
-						rs.getString("l.lecid"), 
-						rs.getString("l.title"),
-						rs.getString("l.professor"), 
-						rs.getString("l.loc"), 
-						rs.getString("l.week"),
-						rs.getString("l.lectime"),
-						rs.getInt("l.cno"));
+						rs.getString("lecid"), 
+						rs.getString("title"),
+						rs.getString("professor"), 
+						rs.getString("loc"), 
+						rs.getString("week"),
+						rs.getString("lectime"),
+						rs.getInt("cno"));
 				lectureList.add(lecture); 
 			}
 			return lectureList;
@@ -361,16 +360,17 @@ public class LectureDAO {
 	public List<LectureDTO> findLectureByKeyword(String loc, String week, String lecTime, int occupancy, int credit, String onOff, String lecType, String interest, String examType) throws SQLException {
 		String sql = "select l.lecid, l.title, l.professor, l.loc, l.week, l.lectime, l.cno "
 				+ "from lecture l join optionalinfo o on l.lecid = o.lecid "
-				+ "where loc = ? OR "
-				+ "week = ? OR "
-				+ "lecTime = ? OR "
-				+ "occupancy = ? OR "
-				+ "credit = ? OR "
-				+ "onOff = ? OR "
-				+ "lecType = ? OR "
-				+ "interest = ? OR "
-				+ "examType = ?";
-		Object[] param = new Object[] { loc, week, lecTime, occupancy, credit, onOff, lecType, interest, examType};				
+				+ "where o.loc LIKE '" + loc + "%' OR "
+				+ "o.week = ? OR "
+				+ "o.lecTime LIKE '%" + lecTime + "%' OR "
+				+ "o.occupancy between ? and ? OR "
+				+ "o.credit = ? OR "
+				+ "o.onOff = ? OR "
+				+ "o.lecType = ? OR "
+				+ "o.interest = ? OR "
+				+ "o.examType = ?";
+		
+		Object[] param = new Object[] { week, occupancy-20, occupancy+20, credit, onOff, lecType, interest, examType};				
 		
 		jdbcUtil.setSqlAndParameters(sql, param);
 		try {				
@@ -378,13 +378,13 @@ public class LectureDAO {
 			List<LectureDTO> lectureList = new ArrayList<LectureDTO>(); 
 			while (rs.next()) {
 				LectureDTO lecture = new LectureDTO(
-						rs.getString("l.lecid"), 
-						rs.getString("l.title"),
-						rs.getString("l.professor"), 
-						rs.getString("l.loc"), 
-						rs.getString("l.week"),
-						rs.getString("l.lectime"),
-						rs.getInt("l.cno"));
+						rs.getString("lecid"), 
+						rs.getString("title"),
+						rs.getString("professor"), 
+						rs.getString("loc"), 
+						rs.getString("week"),
+						rs.getString("lectime"),
+						rs.getInt("cno"));
 				lectureList.add(lecture); 
 			}
 			return lectureList;
@@ -422,13 +422,13 @@ public class LectureDAO {
 			List<LectureDTO> lectureList = new ArrayList<LectureDTO>(); 
 			while (rs.next()) {
 				LectureDTO lecture = new LectureDTO(
-						rs.getString("l.lecid"), 
-						rs.getString("l.title"),
-						rs.getString("l.professor"), 
-						rs.getString("l.loc"), 
-						rs.getString("l.week"),
-						rs.getString("l.lectime"),
-						rs.getInt("l.cno"));
+						rs.getString("lecid"), 
+						rs.getString("title"),
+						rs.getString("professor"), 
+						rs.getString("loc"), 
+						rs.getString("week"),
+						rs.getString("lectime"),
+						rs.getInt("cno"));
 				lectureList.add(lecture); 
 			}
 			return lectureList;
@@ -442,6 +442,28 @@ public class LectureDAO {
 		}		
 		return null;
 	}
+	
+	/**
+	 * [R] 주어진 Lecture ID에 해당하는 Lecture가 존재하는지 검사 
+	 */
+	public boolean existingLecture(String lecId) throws SQLException {
+		String sql = "SELECT count(*) FROM Lecture WHERE lecid=?";      
+		jdbcUtil.setSqlAndParameters(sql, new Object[] {lecId});	
+
+		try {
+			ResultSet rs = jdbcUtil.executeQuery();		
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				return (count == 1 ? true : false);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			jdbcUtil.close();		
+		}
+		return false;
+	}
+
 	
 
 	

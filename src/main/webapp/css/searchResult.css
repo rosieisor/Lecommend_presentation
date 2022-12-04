@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+
+.totalresult{
+	margin-top: 35px;
+	margin-left: 80px;
+	padding-top: 20px;
+	width: 650px;
+}
+
+.resultbox {
+	margin-left: 50px;
+	padding: 10px;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+	border: solid 1px #efefef;
+	border-radius: 0.7em;
+	background-color: #efefef;
+	width: 34.375rem;
+}
+
+.keywords {
+	font-weight: bold;
+	color: #6f263d;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+	border: solid 1px #f1f1f1;
+	border-radius: 0.7em;
+	background-color: #fff;
+	margin-left: 50px;
+	margin-bottom: 20px;
+	padding: 3px;
+	width: 50px;
+	text-align: center;
+}
+
+.list {
+	font-weight: bold;
+	font-size: 12px;
+	color: #6f263d;
+}
+
+.btn_wish {
+	float: right;
+	color: white;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+	border: solid 1px #6f263d;
+	border-radius: 0.7em;
+	background-color: #6f263d;
+	padding-top: 0px;
+	font-weight: bold;
+}
+
+.btn_wish:hover {
+	font-weight: bold;
+	border: 1px solid #6f263d;
+	background-color: #fff;
+	color: #6f263d;
+	transition-duration: 1s;
+}
+
+.card-border {
+	margin: 20px;
+	color: #6f263d;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+	border: solid 1px #f1f1f1;
+	border-radius: 1em;
+	background-color: #fff;
+	margin-right: 10px;
+	padding: 3px;
+}
+
+.btn_delete {
+	font-size: 14px;
+	font-weight: bold;
+	border: none;
+	color: #6f263d;
+	float: right;
+	background-color: #fff;
+}
+
+.card-title {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.recommend-card {
+	text-align: center;
+}
+
+.list-cnt {
+	color: #6f263d;
+	font-size: 18px;
+	margin-left: 25px;
+	font-weight: bold;
+	float: left;
+}
+

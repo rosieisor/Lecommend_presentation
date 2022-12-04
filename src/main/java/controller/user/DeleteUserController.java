@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.Controller;
-//import model.User;
+import model.dto.StudentDTO;
 import model.service.UserManager;
 
 public class DeleteUserController implements Controller {
@@ -36,8 +36,8 @@ public class DeleteUserController implements Controller {
 		}
 		
 		/* 삭제가 불가능한 경우 */
-		//User user = manager.findUser(deleteId);	// 사용자 정보 검색
-		//request.setAttribute("user", user);						
+		StudentDTO user = manager.findUser(deleteId); 	// 사용자 정보 검색
+		request.setAttribute("user", user);						
 		request.setAttribute("deleteFailed", true);
 		String msg = (UserSessionUtils.isLoginUser("admin", session)) 
 				   ? "시스템 관리자 정보는 삭제할 수 없습니다."		
